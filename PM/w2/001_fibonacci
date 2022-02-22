@@ -3,8 +3,17 @@
 #reader(lib "htdp-advanced-reader.ss" "lang")((modname 001_fibonacci) (read-case-sensitive #t) (teachpacks ()) (htdp-settings #(#t constructor repeating-decimal #t #t none #f () #f)))
 (define (fibonacci atm)
   (cond
-    ((= 1 atm) 1)
-    ((= 2 atm) 1)
-    (else (+ (fibonacci (- atm 1)) (fibonacci (- atm 2))))
+    ((< atm 1) '())
+    ((= 1 atm) (cons 1 '()))
+    ((= 2 atm) (cons 1 (cons 1 '())))
+    (else (append (fibonacci (- atm 1)) (cons (+ (last_elem (fibonacci (- atm 1))) (last_elem (fibonacci (- atm 2)))) '())))
+    )
+  )
+
+(define (last_elem ls)
+  (cond
+    ((null? ls) #F)
+    ((null? (cdr ls)) (car ls))
+    (else (last_elem (cdr ls)))
     )
   )
