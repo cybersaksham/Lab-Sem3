@@ -1,0 +1,10 @@
+;; The first three lines of this file were inserted by DrRacket. They record metadata
+;; about the language level of this file in a form that our tools can easily process.
+#reader(lib "htdp-advanced-reader.ss" "lang")((modname 003_shuffle_list) (read-case-sensitive #t) (teachpacks ()) (htdp-settings #(#t constructor repeating-decimal #t #t none #f () #f)))
+(define (shuffle_list ls1 ls2)
+  (cond
+    ((null? ls1) ls2)
+    ((null? ls2) ls1)
+    (else (cons (car ls1) (cons (car ls2) (shuffle_list (cdr ls1) (cdr ls2)))))
+    )
+  )
