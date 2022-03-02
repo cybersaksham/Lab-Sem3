@@ -3,9 +3,7 @@
 #reader(lib "htdp-advanced-reader.ss" "lang")((modname 009_sum_of_elems) (read-case-sensitive #t) (teachpacks ()) (htdp-settings #(#t constructor repeating-decimal #t #t none #f () #f)))
 (define (sumofelems ls)
   (if
-   (null? ls) 0
-   (+ (car ls) (sumofelems (cdr ls)))
+   (null? ls) 0 ; If list is null return 0
+   (+ (car ls) (sumofelems (cdr ls))) ; Else return first element + sum of remaining list
    )
   )
-
-(sumofelems '(1 2 3 4 6))

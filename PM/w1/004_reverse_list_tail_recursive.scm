@@ -3,11 +3,9 @@
 #reader(lib "htdp-advanced-reader.ss" "lang")((modname 004_reverse_list_tail_recursive) (read-case-sensitive #t) (teachpacks ()) (htdp-settings #(#t constructor repeating-decimal #t #t none #f () #f)))
 (define (reverseHelp ls acc)
   (if (null? ls)
-      acc
-      (reverseHelp (cdr ls) (cons (car ls) acc))
+      acc ; If list is null return acc
+      (reverseHelp (cdr ls) (cons (car ls) acc)) ; Else call recursion on remaining list with first element stored in acc
    )
   )
 
 (define (reverse2 ls) (reverseHelp ls '()))
-
-(reverse2 '(1 2 3 4 5))

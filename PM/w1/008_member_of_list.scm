@@ -3,11 +3,8 @@
 #reader(lib "htdp-advanced-reader.ss" "lang")((modname 008_member_of_list) (read-case-sensitive #t) (teachpacks ()) (htdp-settings #(#t constructor repeating-decimal #t #t none #f () #f)))
 (define (ismember atm ls)
   (cond
-    ((null? ls) #f)
-    ((eq? atm (car ls)) #t)
-    (else (ismember atm (cdr ls)))
+    ((null? ls) #f) ; If list is null return false
+    ((eq? atm (car ls)) #t) ; If first element is equal return true
+    (else (ismember atm (cdr ls))) ; Else call recursion on remaining list
     )
   )
-
-(ismember 5 '(1 2 3 4))
-(ismember 2 '(1 2))

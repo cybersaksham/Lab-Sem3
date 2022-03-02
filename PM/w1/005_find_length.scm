@@ -3,9 +3,7 @@
 #reader(lib "htdp-advanced-reader.ss" "lang")((modname 005_find_length) (read-case-sensitive #t) (teachpacks ()) (htdp-settings #(#t constructor repeating-decimal #t #t none #f () #f)))
 (define (findlen ls)
   (if (null? ls)
-      0
-      (+ 1 (findlen (cdr ls)))
+      0 ; If list is null return 0
+      (+ 1 (findlen (cdr ls))) ; Else call on remaining list and add 1
       )
   )
-
-(findlen '(1 2 3 4 5))
