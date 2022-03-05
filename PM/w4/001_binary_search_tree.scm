@@ -17,9 +17,9 @@
 
 ;; Getting height difference (balance factor)
 (define height_difference (λ (left_subtree right_subtree)
-                            (let ((lh (height left_subtree))
-                                  (rh (height right_subtree)))
-                              (if (< lh rh) (- rh lh) (- lh rh))
+                            (let ((lh (height left_subtree)) ; Calculate height of left subtree
+                                  (rh (height right_subtree))) ; Calculate height of right subtree
+                              (if (< lh rh) (- rh lh) (- lh rh)) ; Find difference
                               )
                             )
   )
@@ -30,16 +30,16 @@
 ;; Inserting a value
 (define insert (λ (tree value)
                  (cond
-                   ((isempty? tree) (create_newnode value (initialize) (initialize)))
-                   ((< value (node_value tree))
+                   ((isempty? tree) (create_newnode value (initialize) (initialize))) ; If empty then create new node
+                   ((< value (node_value tree)) ; Insert in left
                     (create_newnode (node_value tree)
                                     (insert (left_subtree tree) value)
                                     (right_subtree tree)))
-                   ((> value (node_value tree))
+                   ((> value (node_value tree)) ; Insert in right
                     (create_newnode (node_value tree)
                                     (left_subtree tree)
                                     (insert (right_subtree tree) value)))
-                   (else tree)
+                   (else tree) ; Else return same tree
                    )
                  )
   )
@@ -50,9 +50,9 @@
 ;; Getting height
 (define height (λ (tree)
                  (cond
-                   ((isempty? tree) -1)
+                   ((isempty? tree) -1) ; If empty then -1
                    (else (cond
-                           ((> (height (left_subtree tree)) (height (right_subtree tree)))
+                           ((> (height (left_subtree tree)) (height (right_subtree tree))) ; 1 + max(right subtree height, left subtree height)
                             (+ 1 (height (left_subtree tree))))
                            (else (+ 1 (height (right_subtree tree))))
                            )
