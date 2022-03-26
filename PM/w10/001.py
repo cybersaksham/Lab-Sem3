@@ -35,7 +35,9 @@ tmp_list = file1.readlines()
 file1.close()
 V = []
 ptrs = []
+print("Input from file is")
 for itm in tmp_list:
+    print(itm, end="")
     try:
         itm_int = int(itm)
     except:

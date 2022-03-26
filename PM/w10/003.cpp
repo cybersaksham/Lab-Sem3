@@ -5,130 +5,108 @@ class House;
 
 class Room
 {
+  House *myHouse;
+  string myName;
+
 public:
-  Room(){};
-
-  static void createRoom_v(Room *(&room), House *hse, char *name)
+  Room(House *house, string myName)
   {
-    room = new Room(hse, name);
-  }
+    this->myHouse = house;
 
-  Room(House *hse, char *myName)
-  {
-    cout << "Room::ctor\n";
-    myHse_p = hse;
-
-    if (NULL != myHse_p)
-    {
-      name_p = new char(sizeof(strlen(myName)));
-      name_p = myName;
-    }
+    if (NULL != this->myHouse)
+      this->myName = myName;
     else
-    {
-      cout << "Oops House itself is not Created Yet ...\n";
-    }
+      cout << "House is not created yet...\n";
   };
 
   ~Room()
   {
-    cout << "Room:dtor\n";
-    myHse_p = NULL;
-    delete (name_p);
+    this->myHouse = NULL;
+    this->myName = "";
   };
 
-  void disp()
+  void display()
   {
-    cout << name_p;
-    cout << "\n";
+    cout << this->myName << endl;
   }
-
-  static void initList_v(Room *(&roomsList_p)[3])
-  {
-    roomsList_p[3] = new Room[3];
-  }
-
-private:
-  House *myHse_p;
-  char *name_p;
 };
 
 class House
 {
+  string myName;
+  Room **roomList;
+  int rooms;
+
 public:
-  House(char *myName)
+  House(string myName, int rooms)
   {
-    cout << "House::ctor\n";
-    name_p = new char(sizeof(strlen(myName)));
-    ;
-    name_p = myName;
-
-    Room::initList_v(roomsList_p);
-
-    Room *myRoom;
-    Room::createRoom_v(myRoom, this, "Kitchen");
-    roomsList_p[0] = myRoom;
-
-    Room::createRoom_v(myRoom, this, "BedRoom");
-    roomsList_p[1] = myRoom;
-
-    Room::createRoom_v(myRoom, this, "Drwaing Room");
-    roomsList_p[2] = myRoom;
+    this->myName = myName;
+    this->roomList = new Room *[rooms];
+    this->rooms = rooms;
+    for (int i = 0; i < rooms; i++)
+      this->roomList[i] = NULL;
   }
 
   ~House()
   {
-    cout << "House:dtor\n";
-    unsigned int i;
-
-    cout << "Delete all the Rooms ...\n";
-    for (i = 0; i < 3; ++i)
+    for (int i = 0; i < rooms; ++i)
     {
-      if (roomsList_p[i] != NULL)
-      {
-        delete (roomsList_p[i]);
-      }
+      if (this->roomList[i] != NULL)
+        delete this->roomList[i];
     }
-    delete[] roomsList_p;
-    delete (name_p);
+    delete[] this->roomList;
   }
 
-  void disp()
+  void addRoom(Room *&room)
   {
-    cout << "\n\nName of the House :" << name_p;
+    int i = 0;
+    while (i < this->rooms && this->roomList[i] != NULL)
+      i++;
 
-    if (roomsList_p != NULL)
-    {
-      unsigned int i;
-      cout << "\n\nRooms details...\n";
-      for (i = 0; i < 3; ++i)
-      {
-        if (NULL != roomsList_p[i])
-        {
-          roomsList_p[i]->disp();
-        }
-      }
-      cout << "\n\n";
-    }
+    if (i == this->rooms)
+      cout << "House is full" << endl;
+    else
+      this->roomList[i] = room;
   }
 
-private:
-  char *name_p;
-  Room *roomsList_p[3];
+  void display()
+  {
+    cout << endl;
+    cout << "Name of the House : " << this->myName << endl;
+
+    if (this->roomList != NULL)
+    {
+      cout << "Rooms inside house" << endl;
+      for (int i = 0; i < rooms; ++i)
+      {
+        if (this->roomList[i] != NULL)
+          this->roomList[i]->display();
+      }
+    }
+  }
 };
 
 int main()
 {
+  House *h1 = new House("House1", 3);
 
-  cout << "\nExample of Composition Relationship\n";
-  cout << "-----------------------------------------\n\n";
-  House hse("Vishranti Nilaya");
+  // Rooms
+  Room *r1 = new Room(h1, "Room1");
+  Room *r2 = new Room(h1, "Room2");
+  Room *r3 = new Room(h1, "Room3");
+  Room *r4 = new Room(h1, "Room4");
+  r1->display();
 
-  cout << "\n\nHouse details...\n";
-  hse.disp();
+  // Adding to house
+  h1->addRoom(r1);
+  h1->addRoom(r2);
+  h1->addRoom(r3);
+  h1->addRoom(r4);
 
-  cout << "Here House itself creates the Rooms and Deletes as well, before it gets deletd...\n";
+  h1->display();
+
+  delete h1;
+  r1->display();
 
   return (0);
 }
-
-// Room:dtor
